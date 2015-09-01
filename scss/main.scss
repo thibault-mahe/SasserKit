@@ -1,0 +1,33 @@
+// Imports
+// -------------------------
+
+// Imports Assets and overrides
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,900);
+@import "colors";
+@import "override-variables";
+@import "custom-variables";
+@import "vendor/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+@import "vendor/font-awesome/scss/font-awesome.scss";
+
+// Import Utilities
+@import "reset";
+@import "mixins";
+
+// Import Components
+@import "header";
+@import "footer";
+
+// Shame
+@import "shame";
+
+// Styles
+// -------------------------
+
+// Default Transition
+a {
+	@include transition(color);
+}
+
+section {
+	@include container-fixed();
+}

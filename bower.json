@@ -1,0 +1,23 @@
+{
+  "name": "Sasserkit",
+  "version": "1.0",
+  "authors": [
+    "Thibault Mahé <thibault.mahe@escaledigitale.com>"
+  ],
+  "description": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass": "~3.3.3",
+    "jquery": "~2.1.4",
+    "font-awesome": "~4.4.0",
+    "html5shiv": "~3.7.3",
+    "respond": "~1.4.2"
+  }
+}

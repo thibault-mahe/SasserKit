@@ -1,0 +1,43 @@
+// Header
+// --------------------------
+
+header {
+	color: red;
+	.skip-nav { // hidden for accessibility
+		ul {
+			@include container;
+			list-style: none;
+			margin-bottom: 0;
+			> li {
+				float: left;
+				padding-right: 15px;
+				> a {
+					color: #fff;
+					font-size: 11px;
+					display: none;
+				}
+			}
+		}
+	}
+	.navbar {
+		border: 0;
+		.navbar-toggle {
+			color: $white;
+			&:focus,
+			&:hover {
+				color: $brand-primary;
+			}
+		}
+		.navbar-brand {
+		}
+		.navbar-nav {
+			li {
+				a {
+					padding: 0 10px;
+					line-height: $navbar-height;
+				}
+			}
+
+		}
+	}
+}
