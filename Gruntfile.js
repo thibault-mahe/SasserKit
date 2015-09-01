@@ -52,7 +52,7 @@ module.exports = function(grunt) {
 
 	    sass: {
 	      options: {
-	        sourceMap: true
+	        sourceMap: false
 	      },
 	      dist: {
 	        files: {
@@ -115,7 +115,29 @@ module.exports = function(grunt) {
 				files: ['index.html'],
 				tasks: []
 			}
+		},
+
+		//When the critical css is generated, copy and paste it
+		//to insert it in the adequate view.
+		criticalcss: {
+			home: {
+				options:  {
+					outputfile : 'css/critical/critical-home.css',
+					filename : 'css/main.css',
+					url : 'http://localhost:9001',
+					width: 1200,
+                	height: 900
+				}
+			}
+			// view: {
+			// 	options:  {
+			// 		outputfile : 'css/critical/critical-viewName.css',
+			// 		filename : 'css/main.css',
+			// 		url : 'path/to/view.html'
+			// 	}
+			// }
 		}
+
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -127,10 +149,20 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-csso');
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-contrib-connect');
+	grunt.loadNpmTasks('grunt-criticalcss');
 
 	grunt.registerTask('images', ['imagemin']);
-	grunt.registerTask('prod', ['jshint', 'sass', 'autoprefixer', 'csso', 'concat', 'uglify:js', 'imagemin']);
 	grunt.renameTask( 'watch', 'delta' );
-	grunt.registerTask('default', ['jshint', 'sass', 'autoprefixer', 'csso', 'concat', 'connect:localhost', 'delta']);
+	grunt.registerTask('default', [
+		'jshint',
+		'sass',
+		'autoprefixer',
+		'csso',
+		'concat',
+		'imagemin',
+		'connect:localhost',
+		'criticalcss',
+		'delta'
+	]);
 
 };

@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "description": "A starter kit for front developpement with bootstrap, sass, bower and grunt",
   "repository": {
-    "type": "git",
+    "type": "git"
   },
   "license": "MIT",
   "dependencies": {
@@ -16,6 +16,7 @@
     "grunt-contrib-uglify": "^0.7.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-csso": "^0.7.0",
-    "grunt-sass": "^1.0.0"
+    "grunt-sass": "^1.0.0",
+    "grunt-criticalcss": "^0.5.0"
   }
 }
