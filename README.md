@@ -39,7 +39,7 @@ $ grunt
 
 ## Critical CSS
 
-Sasserkit uses the grunt contrib for [criticalcss](https://github.com/filamentgroup/grunt-criticalcss). When you launch grunt, it generates critical css files in css/critical/.. that you can copy, paste and inline in the head of your html.
+SasserKit uses the grunt contrib for [criticalcss](https://github.com/filamentgroup/grunt-criticalcss). When you launch grunt, it generates critical css files in css/critical/.. that you can copy, paste and inline in the head of your html.
 
 ## Switch from LESS to SASS (work in progress)
 
