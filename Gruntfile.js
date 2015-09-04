@@ -71,15 +71,15 @@ module.exports = function(grunt) {
 			ieSupport: {
 				src: ['vendor/html5shiv/dist/html5shiv.js',
 					'vendor/respond/dest/respond.js'],
-				dest: 'js/<%= pkg.name %>-<%= pkg.version %>-ie-support.js'
+				dest: 'dist/<%= pkg.name %>-<%= pkg.version %>-ie-support.js'
 			}
 		},
 
 		uglify : {
 			js: {
 				files: {
-					'js/<%= pkg.name %>-<%= pkg.version %>.js' : [ 'js/<%= pkg.name %>-<%= pkg.version %>.js' ],
-					'js/<%= pkg.name %>-<%= pkg.version %>-ie-support.js' : ['js/<%= pkg.name %>-<%= pkg.version %>-ie-support.js']
+					'dist/<%= pkg.name %>-<%= pkg.version %>.js' : [ 'dist/<%= pkg.name %>-<%= pkg.version %>.js' ],
+					'dist/<%= pkg.name %>-<%= pkg.version %>-ie-support.js' : ['dist/<%= pkg.name %>-<%= pkg.version %>-ie-support.js']
 				}
 			}
 		},
