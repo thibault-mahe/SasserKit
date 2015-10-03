@@ -113,7 +113,7 @@ module.exports = function(grunt) {
 			},
 			html: {
 				files: ['index.html'],
-				tasks: []
+				tasks: ['sass', 'autoprefixer', 'csso']
 			}
 		},
 
