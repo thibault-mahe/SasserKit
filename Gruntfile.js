@@ -136,6 +136,41 @@ module.exports = function(grunt) {
 			// 		url : 'path/to/view.html'
 			// 	}
 			// }
+		},
+
+		pagespeed: {
+			options: {
+				nokey: true,
+				url: "" //insert url here
+			},
+			prod: {
+				options: {
+					url: "", //insert url here
+					locale: "en_GB",
+					strategy: "desktop",
+					threshold: 80
+				}
+			},
+			paths: {
+				options: {
+					paths: [], //insert paths here
+					locale: "en_GB",
+					strategy: "desktop",
+					threshold: 80
+				}
+			}
+		},
+
+		csscount: {
+			dev: {
+				src: [
+					'css/main.css'
+				],
+				options: {
+					maxSelectors: 4095,
+					maxSelectorDepth: false
+				}
+			}
 		}
 
 	});
@@ -150,15 +185,21 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-criticalcss');
+	grunt.loadNpmTasks('grunt-pagespeed');
+	grunt.loadNpmTasks('grunt-css-count');
 
 	grunt.registerTask('images', ['imagemin']);
+	grunt.registerTask('critical', ['criticalcss']);
+	grunt.registerTask('stats', ['csscount', 'pagespeed']);
 	grunt.renameTask( 'watch', 'delta' );
 	grunt.registerTask('default', [
 		'jshint',
 		'sass',
 		'autoprefixer',
+		'csscount',
 		'csso',
 		'concat',
+		'uglify',
 		'imagemin',
 		'connect:localhost',
 		'criticalcss',

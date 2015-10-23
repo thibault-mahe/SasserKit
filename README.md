@@ -37,6 +37,16 @@ Run project with Grunt.
 $ grunt
 ```
 
+### Stats
+
+To have statistics on the project, run the following command :
+
+```
+$ grunt stats
+```
+
+CSS-count gives you data on the code (IE9 is limited to 4095 selectors) and PageSpeed offers data on the project performance according to [Google PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/).
+
 ## Critical CSS
 
 SasserKit uses the grunt contrib for [criticalcss](https://github.com/filamentgroup/grunt-criticalcss). When you launch grunt, it generates critical css files in css/critical/.. that you can copy, paste and inline in the head of your html.
