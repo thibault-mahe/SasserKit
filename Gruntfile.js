@@ -1,153 +1,183 @@
 module.exports = function(grunt) {
 
+require('load-grunt-tasks')(grunt);
+
 	grunt.initConfig({
 
+		//Gruntfile var
+
+		vendorsPath : './vendor',
+		srcAssets : './_assets',
+		buildAssets : './assets',
 		pkg: grunt.file.readJSON('package.json'),
 
+		//Tasks for JavaScript
 
-		jshint: {
-			files: ['Gruntfile.js', 'assets/js/main.js'],
+		eslint: {
 			options: {
-				globals: {
-					jQuery: true,
-					console: true,
-					module: true
+				useEslintrc: true,
+			},
+			target: ['<%= srcAssets %>/js/main.js']
+		},
+
+		browserify: {
+			dist: {
+				options: {
+					transform: [["babelify"]]
+				},
+				files: {
+					"<%= srcAssets %>/js/<%= pkg.name %>-<%= pkg.version %>.js": "<%= srcAssets %>/js/main.js"
 				}
 			}
 		},
 
-		autoprefixer: {
-	        dist: {
-	            options: {
-	              browsers: ['last 2 version', 'ie 9', 'Firefox > 20', 'Safari > 5'],
-	              flatten: true
-	            },
-	            files: {
-	                'assets/css/main.css': 'assets/css/main.css'
-	            }
-	        }
-	    },
-
-	    csso: {
-	          compress: {
-	              options: {
-	                  report: 'min'
-	              },
-	              files: {
-	                  'assets/css/main.min.css': 'assets/css/main.css'
-	              }
-	          }
-	     },
-
-	    imagemin: {
-	      dynamic: {
-	        files: [{
-	            expand: true,
-	            cwd: 'assets/im/',
-	            src: ['**/*.{png,jpg,gif}'],
-	            dest: 'assets/im/'
-	        }]
-	      }
-	    },
-
-	    sass: {
-	      options: {
-	        sourceMap: false
-	      },
-	      dist: {
-	        files: {
-	          'assets/css/main.css': 'assets/scss/main.scss'
-	        }
-	      }
-	    },
-
 		concat: {
 			main: {
-				src: ['vendor/jquery/dist/jquery.js',
-					'vendor/bootstrap-sass/assets/javascripts/bootstrap.js',
-					'assets/js/main.js'],
-				dest: 'assets/js/<%= pkg.name %>-<%= pkg.version %>.js'
+				src: ['<%= vendorPath %>/jquery/dist/jquery.js',
+				'<%= vendorPath %>/bootstrap-sass/assets/javascripts/bootstrap.js',
+				'<%= srcAssets %>/js/main.js'],
+				dest: '<%= srcAssets %>/js/<%= pkg.name %>-<%= pkg.version %>.js'
 			},
 			ieSupport: {
-				src: ['vendor/html5shiv/dist/html5shiv.js',
-					'vendor/respond/dest/respond.js'],
-				dest: 'assets/js/<%= pkg.name %>-<%= pkg.version %>-ie-support.js'
+				src: ['<%= vendorPath %>/html5shiv/dist/html5shiv.js',
+				'<%= vendorPath %>/respond/dest/respond.js'],
+				dest: '<%= srcAssets %>/js/<%= pkg.name %>-<%= pkg.version %>-ie-support.js'
 			}
 		},
 
 		uglify : {
 			js: {
 				files: {
-					'assets/js/<%= pkg.name %>-<%= pkg.version %>.min.js' : [ 'assets/js/<%= pkg.name %>-<%= pkg.version %>.js' ],
-					'assets/js/<%= pkg.name %>-<%= pkg.version %>-ie-support.min.js' : ['assets/js/<%= pkg.name %>-<%= pkg.version %>-ie-support.js']
+					'<%= buildAssets %>/js/<%= pkg.name %>-<%= pkg.version %>.min.js' : [ '<%= srcAssets %>/js/<%= pkg.name %>-<%= pkg.version %>.js' ],
+					'<%= buildAssets %>/js/<%= pkg.name %>-<%= pkg.version %>-ie-support.min.js' : ['<%= srcAssets %>/js/<%= pkg.name %>-<%= pkg.version %>-ie-support.js']
 				}
 			}
 		},
 
-		connect: {
-			localhost: {
-				options: {
-					port: 9001,
-					open: {
-						target: 'http://localhost:9001/'
-					},
-					keepalive: false,
-					base: [''],
-					livereload: false,
-					hostname: 'localhost',
-				}
-			}
-		},
+		//Tasks for CSS
 
-		delta: {
+		postcss: {
 			options: {
-				livereload: true,
+				map: true,
+				processors: [
+				require('autoprefixer')({browsers: ['last 2 versions']})
+				]
 			},
-			gruntfile: {
-		        files: 'Gruntfile.js',
-		        tasks: [ 'jshint' ],
-		        options: {
-		          livereload: false
-		        }
-		    },
-			sass: {
-				files: 'assets/scss/main.scss',
-				tasks: ['sass', 'autoprefixer', 'csso', 'csscount'],
-			},
-			script: {
-				files: 'assets/js/main.js',
-				tasks: ['jshint', 'concat']
-			},
-			html: {
-				files: ['*.html', '*/*.html', '*/*/*.html'],
-				tasks: ['sass', 'autoprefixer', 'csso']
-			},
-			images: {
-				files: ['assets/im/**/*.{png,jpg,gif}'],
-				tasks: ['imagemin']
+			dist: {
+				options: {
+					browsers: ['last 2 version', 'ie 9', 'Firefox > 20', 'Safari > 5'],
+					flatten: true
+				},
+				files: {
+					'<%= srcAssets %>/css/main.css' : ['<%= srcAssets %>/css/main.css'],
+				}
 			}
 		},
 
-		//When the critical css is generated, copy and paste it
+		csso: {
+			compress: {
+				options: {
+					report: 'min'
+				},
+				files: {
+					'<%= buildAssets %>/css/main.min.css': '<%= srcAssets %>/css/main.css'
+				}
+			}
+		},
+
+		sass: {
+			options: {
+				sourceMap: false
+			},
+			dist: {
+				files: {
+					'<%= srcAssets %>/css/main.css': '<%= srcAssets %>/scss/main.scss'
+				}
+			}
+		},
+
+	    //When the critical css is generated, copy and paste it
 		//to insert it in the adequate view.
 		criticalcss: {
 			home: {
 				options:  {
-					outputfile : 'assets/css/critical/critical-home.css',
-					filename : 'assets/css/main.css',
+					outputfile : '<%= srcAssets %>/css/critical/critical-home.css',
+					filename : '<%= srcAssets %>/css/main.css',
 					url : 'http://localhost:9001',
 					width: 1200,
-                	height: 900
+					height: 900
 				}
 			}
-			// view: {
-			// 	options:  {
-			// 		outputfile : 'css/critical/critical-viewName.css',
-			// 		filename : 'css/main.css',
-			// 		url : 'path/to/view.html'
-			// 	}
-			// }
 		},
+
+	    //Tasks for images and fonts
+
+	    imagemin: {
+	    	dynamic: {
+	    		files: [{
+	    			expand: true,
+	    			cwd: '<%= srcAssets %>/im/',
+	    			src: ['**/*.{png,jpg,gif}'],
+	    			dest: '<%= buildAssets %>/im/'
+	    		}]
+	    	}
+	    },
+
+	    copy: {
+	    	main: {
+	    		files: [
+	    		{expand: true, cwd: '<%= srcAssets %>/', src: ['fonts/**'], dest: '<%= buildAssets %>'},
+	    		],
+	    	},
+	    },
+
+	    //Tasks for livereload
+
+	    connect: {
+	    	localhost: {
+	    		options: {
+	    			port: 9001,
+	    			open: {
+	    				target: 'http://localhost:9001/'
+	    			},
+	    			keepalive: false,
+	    			base: [''],
+	    			livereload: false,
+	    			hostname: 'localhost',
+	    		}
+	    	}
+	    },
+
+	    delta: {
+	    	options: {
+	    		livereload: true,
+	    	},
+	    	gruntfile: {
+	    		files: 'Gruntfile.js',
+	    		tasks: [ 'eslint' ],
+	    		options: {
+	    			livereload: false
+	    		}
+	    	},
+	    	sass: {
+	    		files: '<%= srcAssets %>/scss/main.scss',
+	    		tasks: ['sass', 'postcss', 'csso', 'csscount'],
+	    	},
+	    	script: {
+	    		files: '<%= srcAssets %>/js/main.js',
+	    		tasks: ['eslint', 'browserify', 'concat']
+	    	},
+	    	html: {
+	    		files: ['*.html', '*/*.html', '*/*/*.html'],
+	    		tasks: ['sass', 'postcss', 'csso']
+	    	},
+	    	images: {
+	    		files: ['<%= srcAssets %>/im/**/*.{png,jpg,gif}'],
+	    		tasks: ['imagemin']
+	    	}
+	    },
+
+		//Tasks for stats
 
 		pagespeed: {
 			options: {
@@ -175,46 +205,47 @@ module.exports = function(grunt) {
 		csscount: {
 			dev: {
 				src: [
-					'assets/css/main.css'
+				'<%= buildAssets %>/css/main.css'
 				],
 				options: {
 					maxSelectors: 4095,
 					maxSelectorDepth: false
 				}
 			}
+		},
+
+		concurrent: {
+			transform: ['browserify', 'sass'],
+			minify: ['csso', 'uglify'],
+			optim: ['imagemin', 'criticalcss']
 		}
 
 	});
 
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-autoprefixer');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-imagemin');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-csso');
-	grunt.loadNpmTasks('grunt-sass');
-	grunt.loadNpmTasks('grunt-contrib-connect');
-	grunt.loadNpmTasks('grunt-criticalcss');
-	grunt.loadNpmTasks('grunt-pagespeed');
-	grunt.loadNpmTasks('grunt-css-count');
-
-	grunt.registerTask('images', ['imagemin']);
-	grunt.registerTask('critical', ['criticalcss']);
-	grunt.registerTask('stats', ['csscount', 'pagespeed']);
-	grunt.renameTask( 'watch', 'delta' );
-	grunt.registerTask('default', [
-		'jshint',
-		'sass',
-		'autoprefixer',
-		'csscount',
-		'csso',
-		'concat',
-		'uglify',
-		'imagemin',
-		'connect:localhost',
-		'criticalcss',
-		'delta'
+grunt.registerTask('images', ['imagemin']);
+grunt.registerTask('critical', ['criticalcss']);
+grunt.registerTask('stats', ['csscount', 'pagespeed']);
+grunt.renameTask( 'watch', 'delta' );
+grunt.registerTask('default', [
+	'eslint',
+	'concurrent:transform',
+	'postcss',
+	'csscount',
+	'concat',
+	'concurrent:minify',
+	'connect:localhost',
+	'copy',
+	'delta'
+	]);
+grunt.registerTask('prod', [
+	'eslint',
+	'concurrent:transform',
+	'postcss',
+	'csscount',
+	'concat',
+	'concurrent:minify',
+	'copy',
+	'concurrent:optim'
 	]);
 
 };
