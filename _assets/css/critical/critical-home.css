@@ -124,7 +124,7 @@ header .skip-nav ul > li > a{ color: rgb(255, 255, 255); font-size: 11px; displa
 header .navbar{ border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-style: initial; border-color: initial; }
 header .navbar .navbar-toggle{ color: rgb(255, 255, 255); }
 header .navbar .navbar-nav li a{ padding-top: 0px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px; line-height: 50px; }
-a{ -webkit-transition-property: color; -webkit-transition-duration: 0.2s; -webkit-transition-timing-function: ease-out; -webkit-transition-delay: initial; }
+a{ }
 section{ margin-right: auto; margin-left: auto; padding-left: 15px; padding-right: 15px; }
 section::before, section::after{ content: ' '; display: table; }
 section::after{ clear: both; }
