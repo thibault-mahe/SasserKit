@@ -24,6 +24,7 @@
     "babelify": "^7.2.0",
     "grunt-browserify": "^4.0.1",
     "grunt-concurrent": "^2.1.0",
+    "grunt-contrib-clean": "^0.7.0",
     "grunt-contrib-copy": "^0.8.2",
     "grunt-eslint": "^17.3.1",
     "grunt-postcss": "^0.7.1",
