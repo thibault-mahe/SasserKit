@@ -174,6 +174,10 @@ require('load-grunt-tasks')(grunt);
 	    	images: {
 	    		files: ['<%= srcAssets %>/im/**/*.{png,jpg,gif}'],
 	    		tasks: ['imagemin']
+	    	},
+	    	fonts: {
+	    		files: ['<%= srcAssets %>/fonts/**/*'],
+	    		tasks: ['copy']
 	    	}
 	    },
 
